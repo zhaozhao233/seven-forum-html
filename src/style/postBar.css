@@ -1,0 +1,142 @@
+.icon-top {
+  background-color: blue;
+  border-radius: 5px;
+  color: white;
+  margin-right: 3px;
+}
+
+.icon-good {
+  background-color: red;
+  border-radius: 5px;
+  color: white;
+  margin-right: 3px;
+}
+
+.page-container {
+  width: 1230px;
+  height: 500px;
+  MARGIN-RIGHT: auto;
+  MARGIN-LEFT: auto;
+}
+
+.main {
+  width: 1000px;
+  margin: auto;
+}
+
+span {
+  font-size: 12px;
+}
+
+.ba-img {
+  float: left;
+}
+
+.ba-info {
+  width: 450px;
+  height: 75px;
+}
+
+.post-title {
+  font-size: 14px;
+}
+
+.ba-post {
+  width: 900px;
+  float: left;
+}
+
+img {
+  width: 150px;
+  height: 150px;
+}
+
+.ba-name {
+  float: left;
+}
+
+a {
+  text-decoration: none;
+  color: black;
+}
+
+.ba-name > a {
+  font-size: 22px;
+}
+
+.card-info > a, .post-context a {
+  font-size: 14px;
+  color: #2D64B3;
+}
+
+.ba-button {
+  float: left;
+  margin-left: 4px;
+}
+
+.ba-count {
+  float: left;
+}
+
+.ba-count {
+  color: #FF7F3E;
+}
+
+.ba-slogan {
+  width: 300px;
+  height: 40px;
+  float: left;
+  text-align: left;
+}
+
+p {
+  word-break: break-all;
+  margin: 3px;
+}
+
+.post-num {
+  float: left;
+}
+
+.post-context {
+  float: left;
+  text-align: left;
+}
+
+.post-user {
+  float: right;
+  text-align: left;
+}
+
+.user-name {
+  margin-left: 3px;
+}
+
+.post-info {
+  border: 1px dotted black;
+  height: 50px;
+}
+
+.page-button {
+  float: right;
+  bottom: 0px;
+  margin-right: 250px;
+}
+
+.post_div {
+  float: left;
+  margin-top: 20px;
+  width: 900px;
+}
+
+.tip {
+  color: red;
+}
+
+.left {
+  float: left;
+}
+
+#editorElem {
+  text-align: left;
+}

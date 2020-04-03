@@ -1,0 +1,342 @@
+.a_user_name {
+  color: blue;
+}
+
+.reply_info {
+  list-style: none;
+  padding-left: 10px;
+}
+
+.reply_info li {
+  margin-bottom: 5px;
+}
+
+.rich_poster_container {
+  height: 420px;
+  background-color: #F4F4F4;
+}
+
+.special_button {
+  width: 120px;
+  margin: auto;
+  overflow: hidden;
+
+}
+
+.upload_iv {
+  width: 120px;
+  height: 18px;
+  float: left;
+}
+
+.post_info {
+  min-height: 400px;
+  display: -webkit-box;
+}
+
+.post_author {
+  background-color: #FAFBFC;
+  width: 140px;
+  height: auto;
+}
+
+.img_author {
+  width: 80px;
+  height: 80px
+}
+
+.author_name p {
+  display: inline;
+}
+
+.post_content {
+  width: 800px;
+  margin-top: 0px;
+  padding: 0px;
+  display: inline-block;
+  text-align: left;
+}
+
+.user_reply_post_content {
+  min-height: 350px
+}
+
+hr {
+  margin: 0px;
+}
+
+.common_bottom {
+  display: block;
+  bottom: 1%;
+  z-index: 9999
+}
+
+.have_reply {
+  background-color: #F7F8FA;
+}
+
+.common_bottom ul {
+  margin: 20px 10px 0px 0px;
+  float: right;
+}
+
+.common_bottom li {
+  display: inline;
+  float: right;
+  margin-right: 10px;
+}
+
+.common_bottom li > span, .reply_reply {
+  color: #999;
+  font-size: 12px;
+}
+
+.common_bottom li > a {
+  color: blue;
+  font-size: 12px;
+}
+
+.core_reply_tail span {
+  font-size: 12px;
+  color: #999;
+}
+
+.core_reply_tail ul {
+  list-style: none;
+  float: right;
+  margin: 5px;
+  padding: 0px;
+}
+
+.core_reply_tail li {
+  float: left;
+  margin-left: 15px;
+}
+
+
+.d_author ul {
+  list-style: none;
+  padding-left: 0px;
+}
+
+.text {
+  background-image: -webkit-linear-gradient(left, blue, #66ffff 10%, #cc00ff 20%, #CC00CC 30%, #CCCCFF 40%, #00FFFF 50%, #CCCCFF 60%, #CC00CC 70%, #CC00FF 80%, #66FFFF 90%, blue 100%);
+  -webkit-text-fill-color: transparent; /* 将字体设置成透明色 */
+  -webkit-background-clip: text; /* 裁剪背景图，使文字作为裁剪区域向外裁剪 */
+  -webkit-background-size: 200% 100%;
+  -webkit-animation: masked-animation 4s linear infinite;
+  font-size: 20px;
+}
+
+@keyframes masked-animation {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: -100% 0;
+  }
+}
+
+.page-container {
+  width: 1230px;
+  /*height:500px;*/
+  MARGIN-RIGHT: auto;
+  MARGIN-LEFT: auto;
+  /*border: 1px solid black;*/
+}
+
+.main {
+  width: 980px;
+  /*border: 1px solid black;*/
+  margin: auto;
+}
+
+.card_top_wrap {
+  height: 82px;
+}
+
+.card_head {
+  width: 52px;
+  height: 52px;
+  float: left;
+  margin: 15px;
+}
+
+.card_img_head {
+  width: 48px;
+  height: 48px;
+  /*margin: 20px;*/
+}
+
+.card_title {
+  width: 600px;
+  height: 40px;
+  float: left;
+  margin-top: 20px;
+  text-align: left;
+}
+
+.card_title_fname {
+  font-size: 20px;
+  float: left;
+  margin: 5px;
+}
+
+.follow {
+  margin: 2px 10px 0px 20px;
+}
+
+a {
+  text-decoration: none;
+  color: black;
+}
+
+.card_num {
+  margin: 13px;
+  font-size: 10px;
+}
+
+.card_numLabel {
+  color: #AAA;
+}
+
+.card_menNum, .card_infoNum {
+  margin-right: 15px;
+  color: #ff7f3e;
+}
+
+.nav_warp {
+  height: 46px;
+  background-color: #E4E6E9;
+}
+
+.nav_warp ul, .core_title ul {
+  list-style: none;
+  padding: 0px;
+  margin: 0px;
+}
+
+.nav_warp li, .core_title li {
+  float: left;
+  margin-left: 15px;
+}
+
+h4 {
+  float: left;
+  color: red;
+  margin-left: 20px;
+  margin-bottom: 5px;
+}
+
+.page_button {
+  width: 120px;
+}
+
+.core_title {
+  border-bottom: 1px solid #D7DBDE;
+  height: 56px;
+  border-top: 1px solid #D7DBDE;
+  /*position: fixed;*/
+  /*width: 980px; height: 56px; position: fixed;background-color: white;*/
+}
+
+.core_title_btns {
+  float: right;
+}
+
+.core_title_btns p {
+  display: inline-block;
+/*/ / display: block;*/
+  width: 100px;
+  height: 30px;
+  border: 1px solid black;
+  color: black;
+  background: #C0C0C0;
+  border-radius: 3px;
+  text-align: center;
+  line-height: 30px;
+}
+
+.text p {
+  display: inline;
+}
+
+.reply {
+  width: 640px;
+  background-color: #F7F8FA;
+  float: right;
+  margin-right: 20px;
+}
+
+.reply_read {
+  border-bottom: 1px dotted black;
+  overflow: auto;
+}
+
+.reply_user_img {
+  float: left;
+  margin-right: 10px;
+}
+
+.reply_user_img > a > img {
+  width: 32px;
+  height: 32px;
+}
+
+.reply_content {
+  width: 550px;
+  float: left;
+  word-break: break-all
+}
+
+.reply_reply {
+  float: right;
+}
+
+.control_reply {
+  height: 20px;
+}
+
+.control_reply > a {
+  display: block;
+  width: 80px;
+  height: 20px;
+  border: 1px solid #CCC;
+  background: #FFF;
+  float: right;
+}
+
+.reply_write > div {
+  background-color: white;
+  height: 40px;
+  border: 1px solid #D6DFFA;
+  overflow-y: scroll;
+}
+
+.reply_write > a {
+  height: 21px;
+  line-height: 21px;
+  padding: 0 11px;
+  background: #02bafa;
+  border: 1px #26bbdb solid;
+  border-radius: 3px;
+  display: inline-block;
+  text-decoration: none;
+  font-size: 20px;
+  outline: none;
+  float: right;
+  margin: 10px 0px 10px 0px;
+}
+
+.tip {
+  color: red;
+}
+
+.reply_post_div {
+  margin-right: 490px;
+}
+
+#reply_post_button {
+  margin-top: 10px;
+  float: right;
+}

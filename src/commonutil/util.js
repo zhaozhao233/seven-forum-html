@@ -1,0 +1,92 @@
+/**
+ * 工具类
+ */
+export default {
+  /**
+   * 时间日期格式化
+   * @param format
+   * @returns {*}
+   */
+  dateFormat (dateObj, format) {
+    let date = {
+      'M+': dateObj.getMonth() + 1,
+      'd+': dateObj.getDate(),
+      'h+': dateObj.getHours(),
+      'm+': dateObj.getMinutes(),
+      's+': dateObj.getSeconds(),
+      'q+': Math.floor((dateObj.getMonth() + 3) / 3),
+      'S+': dateObj.getMilliseconds()
+    }
+    if (/(y+)/i.test(format)) {
+      format = format.replace(RegExp.$1, (dateObj.getFullYear() + '').substr(4 - RegExp.$1.length))
+    }
+    for (let k in date) {
+      if (new RegExp('(' + k + ')').test(format)) {
+        format = format.replace(RegExp.$1, RegExp.$1.length === 1
+          ? date[k] : ('00' + date[k]).substr(('' + date[k]).length))
+      }
+    }
+    return format
+  },
+
+  /**
+   * 获取上传文件名
+   * @param option 文件
+   * @returns {boolean} 是否符合要求
+   */
+  getImageName(option) {
+    let date = this.dateFormat(new Date(), 'yyyyMMdd') // 当前时间
+    let dateTime = this.dateFormat(new Date(), 'yyyyMMddhhmmss') // 当前时间
+    let uuid = this.generateUUID();
+    let extensionName = option.file.name.substr(option.file.name.indexOf('.')) // 文件扩展名
+    let fileName = 'post/' + date + '/' + dateTime + '_' + uuid + extensionName // 文件名字（相对于根目录的路径 + 文件名）
+    return fileName
+  },
+
+  /**
+   * 生成uuid
+   */
+  generateUUID() {
+    var d = new Date().getTime();
+    if (window.performance && typeof window.performance.now === "function") {
+      d += performance.now(); //use high-precision timer if available
+    }
+    var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+      var r = (d + Math.random() * 16) % 16 | 0;
+      d = Math.floor(d / 16);
+      return (c == 'x' ? r : (r & 0x3 | 0x8)).toString(16);
+    });
+    return uuid;
+  },
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

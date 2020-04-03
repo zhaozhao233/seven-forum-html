@@ -5,9 +5,6 @@ import ForumClass from "../components/postbar/ForumClass";
 import Home from "../components/Home";
 import ForumCatalogue from "../components/postbar/ForumCatalogue";
 import ForumPartition from "../components/postbar/ForumPartition";
-import Test from "../components/Test";
-import Test2 from "../components/Test2";
-import TestSearch from "../components/TestSearch";
 import PostInfo from "../components/postbar/PostInfo";
 
 Vue.use(Router)
@@ -15,21 +12,6 @@ Vue.use(Router)
 export default new Router({
   mode: 'history',
   routes: [
-    {
-      path: '/testsearch',
-      name: 'TestSearch',
-      component: TestSearch
-    },
-    {
-      path: '/test2',
-      name: 'Test2',
-      component: Test2
-    },
-    {
-      path: '/test',
-      name: 'Test',
-      component: Test
-    },
     {
       path: '/postinfo',
       name: 'PostInfo',

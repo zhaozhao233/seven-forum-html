@@ -1,4 +1,4 @@
-import Utils from '../commonutil/util'
+import Utils from './util'
 
 var OSS = require('ali-oss')
 
@@ -15,7 +15,15 @@ export default {
       replyPostInfos: '',
       replyInfos: '',
       replyTip: '',
-      replyPostTip: '最多只能上传9张本地图片，每张不可超过3M大小',
+      replyPostTip: '',
+      isPrivate: true,
+      favoritesName: '',
+      createFavoritesTip: '',
+      favoritesList: [],
+      isFollow: 0,
+      isCollection: 0,
+      collectionList: [],
+      collectGroupId: ''
     }
   },
   created() {
@@ -26,6 +34,7 @@ export default {
       }
     }).then(successResponse => {
       this.postBarInfo = successResponse.data.data
+      this.isFollowPostBar()
     }).catch(error => {
       console.log(error)
     })
@@ -33,8 +42,109 @@ export default {
     this.common_queryAllReplyPosts(1, this.pageSize)
 
     this.common_queryAllReplies()
+    this.$axios.get('/postInfos/is/collections', {
+      params: {
+        userId: this.$store.state.user.userId,
+        postId: this.postId
+      }
+    }).then(successResponse => {
+      this.isCollection = successResponse.data.message
+    }).catch(error => {
+      console.log(error)
+    })
+    this.isCollectPost()
+    this.queryAllCollectionList()
   },
   methods: {
+    // 是否关注贴吧
+    isFollowPostBar() {
+      this.$axios.get('/postInfos/is/postBars', {
+        params: {
+          userId: this.$store.state.user.userId,
+          postBarId: this.postBarInfo.postBarId
+        }
+      }).then(successResponse => {
+        this.isFollow = successResponse.data.message
+      }).catch(error => {
+        console.log(error)
+      })
+    },
+    // 取消关注贴吧
+    cancelFollowPostBar() {
+      this.$axios.delete('/postInfos/follows/postBars?userId=' +
+        this.$store.state.user.userId +
+        '&postBarId=' + this.postBarInfo.postBarId)
+        .then(successResponse => {
+          this.isFollowPostBar()
+        }).catch(error => {
+          console.log(error)
+      })
+    },
+    // 关注贴吧
+    followPostBar() {
+      this.$axios.post('/postInfos/postBars?userId=' +
+        this.$store.state.user.userId +
+        '&postBarId=' + this.postBarInfo.postBarId)
+        .then(successResponse => {
+        this.isFollowPostBar()
+      }).catch(error => {
+        console.log(error)
+      })
+    },
+    // 是否收藏帖子
+    isCollectPost() {
+      this.$axios.get('/postInfos/is/collections', {
+        params: {
+          userId: this.$store.state.user.userId,
+          postId: this.postId
+        }
+      }).then(successResponse => {
+        this.isCollection = successResponse.data.message
+      }).catch(error => {
+        console.log(error)
+      })
+    },
+    // 弹出收藏列表选择
+    showCollectionList() {
+      document.getElementsByClassName("box-card")[0].style.display = "block"
+    },
+    // 关闭收藏列表选择
+    closeCollectionList() {
+      document.getElementsByClassName("box-card")[0].style.display = "none"
+    },
+    // 删除收藏夹列表
+    deleteCollection(ev) {
+      this.$axios.delete('/postInfos/collections?collectGroupId=' + this.collectGroupId)
+        .then(successResponse => {
+          this.queryAllCollectionList()
+        })
+    },
+    // 获取要删除的收藏夹id赋值geicollectGroupId，方便后续的调用
+    getCollectGroupId(ev) {
+      this.collectGroupId = ev;
+    },
+    // 查询所有收藏列表
+    queryAllCollectionList() {
+      this.$axios.get('/postInfos/collections', {
+        params: {
+          userId: this.$store.state.user.userId
+        }
+      }).then(successResponse => {
+        this.collectionList = successResponse.data.data
+      }).catch(error => {
+        console.log(error)
+      })
+    },
+    // 取消收藏（帖子界面）
+    cancelCollectPost() {
+      this.$axios.delete('/postInfos/postInfos/collections?userId=' +
+        this.$store.state.user.userId + "&postId=" +
+        this.postId) .then(successResponse => {
+          this.isCollectPost()
+      }).catch(error => {
+        console.log(error)
+      })
+    },
     // 得到该帖子下的所有回帖
     common_queryAllReplyPosts(pageNum, pageSize) {
       this.$axios.get('/postInfos/postBars/posts', {
@@ -47,7 +157,6 @@ export default {
       }).then(successResponse => {
         this.replyPostInfos = successResponse.data.data
         this.dataCount = successResponse.data.message
-        console.log(pageSize + "哦哦")
       }).catch(error => {
         console.log(error)
       })
@@ -230,6 +339,37 @@ export default {
           })
         })
     },
+    // 新建收藏夹
+    createFavorites() {
+      if (this.favoritesName.length === 0) {
+        this.createFavoritesTip = "请填写文件夹名称"
+        return false
+      }
+      if (this.favoritesName.length > 20) {
+        this.createFavoritesTip = "文件夹名字不可以超过20字"
+        return false
+      }
+      this.$axios.post('/postInfos/collections', {
+        groupName: this.favoritesName,
+        userId: this.$store.state.user.userId,
+        status: this.isPrivate === true ? 0 : 1
+      }).then(successResponse => {
+        this.common_queryAllFavorites()
+      })
+    },
+
+    // 查询所有收藏夹信息
+    common_queryAllFavorites() {
+      this.$axios.get("/postInfos/collections", {
+        params: {
+          userId: this.$store.state.user.userId
+        }
+      }).then(successResponse => {
+        this.favoritesList = successResponse.data.data
+      }).catch(error => {
+        console.log(error)
+      })
+    }
   },
   mounted() {
     var editor = new E('#editorElem');

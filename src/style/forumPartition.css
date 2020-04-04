@@ -1,0 +1,49 @@
+.page-container {
+  width:1230px;
+  height:500px;
+  MARGIN-RIGHT: auto;
+  MARGIN-LEFT: auto;
+}
+.page-main {
+  width: 800px;
+  margin: 50px auto;
+}
+.post-bar {
+  width: 376px;
+  height: 179px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04);
+  margin: 10px;
+  float: left;
+  cursor: pointer;
+}
+.page-button {
+  float: left;
+  margin-left: 200px;
+}
+img {
+  width: 105px;
+  height: 105px;
+  margin: 5px;
+}
+.div-img {
+  float: left;
+}
+.ba-content {
+  float: left;
+  width: 226px;
+  height: 113px;
+}
+.ba-name {
+  line-height: 0px;
+  padding-left: 3px;
+}
+.ba-explain {
+  word-break: normal;
+  padding-left: 3px;
+}
+span {
+  margin: 0px 5px ;
+}
+p {
+  text-align: left;
+}

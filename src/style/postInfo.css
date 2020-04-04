@@ -246,7 +246,7 @@ h4 {
 
 .core_title_btns p {
   display: inline-block;
-/*/ / display: block;*/
+  /*/ / display: block;*/
   width: 100px;
   height: 30px;
   border: 1px solid black;
@@ -338,5 +338,83 @@ h4 {
 
 #reply_post_button {
   margin-top: 10px;
+  float: right;
+}
+
+.box-card {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  -moz-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  -o-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+
+.close_collection {
+  float: right;
+  padding: 3px 7px;
+  margin-right: 16px;
+}
+
+.collection_list {
+  height: 300px;
+  overflow-y: scroll;
+}
+
+.clearfix:before,
+.clearfix:after {
+  display: table;
+  content: "";
+}
+
+.clearfix:after {
+  clear: both
+}
+
+.box-card {
+  width: 480px;
+  display: none;
+}
+
+.collection_list ul {
+  list-style: none;
+}
+
+.collection_list li {
+  height: 60px;
+}
+
+.title {
+  text-align: left;
+  margin: 0px 3px 0px 0px;
+}
+
+.info {
+  text-align: left;
+  margin: 3px 0px;
+}
+
+.collect {
+  float: right;
+  border: 1px solid blue;
+  color: blue;
+}
+
+.collection_delete {
+  /*float: right;*/
+  /*border: 1px solid red;*/
+  /*color: red;*/
+  float: right;
+  height: 25px;
+  padding: 5px;
+}
+
+.left {
+  float: left;
+}
+
+.right {
   float: right;
 }

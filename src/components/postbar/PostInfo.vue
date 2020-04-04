@@ -11,13 +11,15 @@
           <div class="card_title">
             <a :href="'/postbar?postbarid=' + postBarInfo.postBarId" class="card_title_fname">{{postBarInfo.postBarName}}</a>
             <a class="follow" href="#">
-              <el-popconfirm :title="'确定不再关注' + postBarInfo.postBarName + '吗？'"
+              <!--用''是因为后端传过来的是字符串而不是数字-->
+              <el-popconfirm v-if="isFollow === '1'" :title="'确定不再关注' + postBarInfo.postBarName + '吗？'"
                              confirmButtonText='确定'
                              cancelButtonText='取消'
                              icon="el-icon-info"
-                             iconColor="red">
-                <el-button slot="reference" type="danger" size="small" icon="el-icon-plus">关注</el-button>
+                             iconColor="red" @onConfirm="cancelFollowPostBar">
+                <el-button slot="reference" type="danger" size="small" icon="el-icon-plus">已关注</el-button>
               </el-popconfirm>
+              <el-button v-if="isFollow !== '1'" slot="reference" type="danger" size="small" icon="el-icon-plus" @click="followPostBar">关注</el-button>
             </a>
             <span class="card_num">
               <span class="card_numLabel">关注：</span>
@@ -74,7 +76,10 @@
             </a>
           </li>
           <li>
-            <a href="#">
+            <a v-if="isCollection === '1'" href="#" @click.prevent="cancelCollectPost()">
+              <p>取消收藏</p>
+            </a>
+            <a v-if="isCollection !== '1'" href="#" @click.prevent="showCollectionList()">
               <p>收藏</p>
             </a>
           </li>
@@ -214,7 +219,45 @@
         </div>
       </div>
     </div>
+    <el-card class="box-card">
+      <div slot="header" class="clearfix">
+        <span style="float: left">添加收藏</span>
+        <el-button icon="el-icon-close" class="close_collection" type="info" @click="closeCollectionList"></el-button>
+      </div>
+      <div class="collection_list">
+        <ul>
+          <li v-for="collection in collectionList">
+            <p class="title">
+              <a :data-collectGroupId="collection.collectGroupId" class="collect" href="#" @click.prevent="insertCollection">收藏</a>
+              {{collection.groupName}}
+            </p>
+            <p class="info">
+              <el-popconfirm @onConfirm="deleteCollection"
+                title="删除后不可恢复，确认删除？"
+              >
+                <el-button class="collection_delete" slot="reference" type="danger"
+                           @click="getCollectGroupId(collection.collectGroupId)">删除</el-button>
+              </el-popconfirm>
+              {{collection.totalNum}}条内容
+            </p>
+          </li>
+        </ul>
+      </div>
 
+      <div class="createCollection">
+        <el-input v-model="favoritesName" placeholder="文件夹名称"></el-input>
+        <span class="left tip">{{createFavoritesTip}}</span>
+        <div class="right">
+          <el-switch
+            v-model="isPrivate"
+            active-text="公开"
+            inactive-text="私密">
+          </el-switch>
+          <el-button type="danger" size="mini" icon="el-icon-plus" @click="createFavorites">新建收藏夹</el-button>
+        </div>
+
+      </div>
+    </el-card>
   </div>
 </template>
 

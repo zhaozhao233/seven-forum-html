@@ -3,11 +3,11 @@
     <div class="main">
       <div class="ba-head">
         <div class="ba-img">
-          <img src="/static/postBars/gaiya.jpg">
+          <img :src="postBarInfo.postBarLogoUrl">
         </div>
         <div class="ba-info">
           <div class="ba-name">
-            <a href="#">{{postBarInfo.postBarName}}</a>
+            <a href="">{{postBarInfo.postBarName}}</a>
           </div>
           <div class="ba-button">
             <el-popconfirm :title="'确定不再关注' + postBarInfo.postBarName + '吗？'"
@@ -29,7 +29,7 @@
           </div>
           <div class="card-info">
             <span>目录：</span>
-            <a href="">{{catalogue.catalogueName}}</a>
+            <a :href="'/forumcatalogue?catalogueId=' + catalogue.catalogueId">{{catalogue.catalogueName}}</a>
           </div>
         </div>
       </div>
@@ -70,7 +70,8 @@
               <p>
                 <i class="el-icon-user"></i>
                 <span class="user-name">
-                  <a href="#">{{postInfo.userName}}</a>
+                  <!--记得改-->
+                  <a :href="'userInfo?userid=' + postInfo.userId">{{postInfo.userName}}</a>
                 </span>
               </p>
             </div>

@@ -4,7 +4,7 @@
       <div class="post-bars">
         <div @click="postbar(postBar.postBarId)" class="post-bar" v-for="postBar in postBars">
           <div class="div-img">
-            <img src="/static/postBars/gaiya.jpg">
+            <img :src="postBar.postBarLogoUrl">
           </div>
           <div class="ba-content">
             <p class="ba-name">{{postBar.postBarName}}</p>
@@ -29,92 +29,10 @@
   </div>
 </template>
 
-<script>
-    export default {
-      name: 'ForumCatalogue',
-      data() {
-        return {
-          byId: 0,
-          // 总数据条数
-          dataCount: 0,
-          pageSize: 20,
-          postBars: []
-        }
-      },
-      methods: {
-        current_change(pageNum) {
-          this.$axios.get('/catalogues/postBars', {
-            params: {
-              catalogueId: this.byId,
-              pageNum: pageNum,
-              pageSize: this.pageSize
-            }
-          }).then(successResponse => {
-            this.postBars = successResponse.data.data
-            this.dataCount = successResponse.data.message
-          }).catch(error => {
-            console.log(error)
-          })
-        },
-        postbar(id) {
-          this.$router.push('/postbar?postbarid=' + id)
-        }
-      },
-      created: function () {
-        this.byId = this.$route.query.catalogueId
-        this.current_change(1)
-      }
-    }
+<script src="../../javascript/forumCatalogue.js">
+
 </script>
 
 <style scoped>
-  .page-container {
-    width:1230px;
-    height:500px;
-    MARGIN-RIGHT: auto;
-    MARGIN-LEFT: auto;
-  }
-  .page-main {
-    width: 800px;
-    margin: 50px auto;
-  }
-  .post-bar {
-    width: 376px;
-    height: 179px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04);
-    margin: 10px;
-    float: left;
-    cursor: pointer;
-  }
-  .page-button {
-    float: left;
-    margin-left: 200px;
-  }
-  img {
-    width: 105px;
-    height: 105px;
-    margin: 5px;
-  }
-  .div-img {
-    float: left;
-  }
-  .ba-content {
-    float: left;
-    width: 226px;
-    height: 113px;
-  }
-  .ba-name {
-    line-height: 0px;
-    padding-left: 3px;
-  }
-  .ba-explain {
-    word-break: normal;
-    padding-left: 3px;
-  }
-  span {
-    margin: 0px 5px ;
-  }
-  p {
-    text-align: left;
-  }
+  @import "../../style/forumPartition.css";
 </style>

@@ -59,6 +59,20 @@ export default {
     return uuid;
   },
 
+  /**
+   * 回到顶部，主要用于换页后回到顶部
+   */
+  backtop() {
+    var timer = setInterval(function () {
+      let osTop = document.documentElement.scrollTop || document.body.scrollTop;
+      let ispeed = Math.floor(-osTop / 5);
+      document.documentElement.scrollTop = document.body.scrollTop = osTop + ispeed;
+      this.isTop = true;
+      if (osTop === 0) {
+        clearInterval(timer);
+      }
+    }, 10)
+  }
 }
 
 

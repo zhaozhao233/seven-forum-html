@@ -1,5 +1,5 @@
 import E from 'wangeditor';
-import Utils from '../commonutil/util'
+import Utils from './util'
 
 var OSS = require('ali-oss')
 
@@ -190,7 +190,7 @@ export default {
     }
   },
   mounted() {
-    window.addEventListener("scroll", this.showbtn, true);
+    // window.addEventListener("scroll", this.showbtn, true);
     var editor = new E('#editorElem');
     editor.customConfig.onchange = (html) => {
       this.editorContent = html

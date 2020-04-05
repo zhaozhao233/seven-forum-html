@@ -7,7 +7,7 @@ export default {
    * @param format
    * @returns {*}
    */
-  dateFormat (dateObj, format) {
+  dateFormat(dateObj, format) {
     let date = {
       'M+': dateObj.getMonth() + 1,
       'd+': dateObj.getDate(),
@@ -72,7 +72,52 @@ export default {
         clearInterval(timer);
       }
     }, 10)
+  },
+  // 判断是否登录
+  isLogin() {
+    let isLogin = this.$store.state.user.userId
+    if (isLogin === '' || isLogin === null || isLogin === 0) {
+      alert('请先登录')
+      return
+    }
+
   }
+  // 以下，似乎不能用this.$axios，总是说get，post没有定义
+  // // 是否关注贴吧
+  // isFollowPostBar(postBarId, isFollow) {
+  //   this.$axios.get('/postInfos/is/postBars', {
+  //     params: {
+  //       userId: this.$store.state.user.userId,
+  //       postBarId: postBarId
+  //     }
+  //   }).then(successResponse => {
+  //     isFollow = successResponse.data.message
+  //   }).catch(error => {
+  //     console.log(error)
+  //   })
+  // },
+  // // 取消关注贴吧
+  // cancelFollowPostBar(postBarId) {
+  //   this.$axios.delete('/postInfos/follows/postBars?userId=' +
+  //     this.$store.state.user.userId +
+  //     '&postBarId=' + postBarId)
+  //     .then(successResponse => {
+  //       this.isFollowPostBar()
+  //     }).catch(error => {
+  //     console.log(error)
+  //   })
+  // },
+  // // 关注贴吧
+  // followPostBar(postBarId) {
+  //   this.$axios.post('/postInfos/postBars?userId=' +
+  //     this.$store.state.user.userId +
+  //     '&postBarId=' + postBarId)
+  //     .then(successResponse => {
+  //       this.isFollowPostBar()
+  //     }).catch(error => {
+  //     console.log(error)
+  //   })
+  // }
 }
 
 

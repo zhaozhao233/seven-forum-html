@@ -7,7 +7,7 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     user: {
-      userId: 100010, //这里要小心判断是字符串还是数字，用数字，不然发送请求给后端得格式化
+      userId: 0, //这里要小心判断是字符串还是数字，用数字，不然发送请求给后端得格式化
       username: '',//       username: window.localStorage.getItem('user' || '[]') == null ? '' : JSON.parse(window.localStorage.getItem('user' || '[]')).username
       // 其他需要保存的用户信息
     }

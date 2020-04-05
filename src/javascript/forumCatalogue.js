@@ -33,6 +33,19 @@ export default {
   },
   created: function () {
     this.byId = this.$route.query.catalogueId
+
+    if (this.byId > 9223372036854775807 || this.byId < 0) {
+      this.$router.push('/error')
+    }
+    this.$axios.get('/is/partitionCatalogue?catalogueId=' + this.byId)
+      .then(successResponse => {
+        if (successResponse.data.message !== '1') {
+          this.$router.push('/error')
+        }
+      }).catch(error => {
+      console.log(error)
+    })
+
     this.current_change(1)
   }
 }

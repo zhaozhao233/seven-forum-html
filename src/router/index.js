@@ -6,12 +6,18 @@ import Home from "../components/Home";
 import ForumCatalogue from "../components/postbar/ForumCatalogue";
 import ForumPartition from "../components/postbar/ForumPartition";
 import PostInfo from "../components/postbar/PostInfo";
+import WrongInterface from "../components/postbar/WrongInterface";
 
 Vue.use(Router)
 
 export default new Router({
   mode: 'history',
   routes: [
+    {
+      path: '/error',
+      name: 'WrongInterface',
+      component: WrongInterface
+    },
     {
       path: '/postinfo',
       name: 'PostInfo',

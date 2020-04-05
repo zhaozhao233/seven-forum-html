@@ -23,11 +23,37 @@ export default {
       isFollow: 0,
       isCollection: 0,
       collectionList: [],
-      collectGroupId: ''
+      collectGroupId: '',
+      // 楼主id
+      landlordId: '',
+      postTitle: '',
+      // 用户id
+      userId: this.$store.state.user.userId
+    }
+  },
+  filters: {
+    ellipsis_title(value) {
+      let len = value.length;
+      if (!value) return ''
+      if (value.length > 25) {
+        return value.substring(0, 25) + '......'
+      }
+      return value
     }
   },
   created() {
     this.postId = this.$route.query.postid
+    if (this.postId > 9223372036854775807 || this.postId < 0) {
+      this.$router.push('/error')
+    }
+    this.$axios.get('/postInfos/is/exists?postId=' + this.postId)
+      .then(successResponse => {
+        if (successResponse.data.message !== '1') {
+          this.$router.push('/error')
+        }
+      }).catch(error => {
+        console.log(error)
+    })
     this.$axios.get('/postInfos/postBars/postBarInfos', {
       params: {
         postId: this.postId
@@ -38,6 +64,15 @@ export default {
     }).catch(error => {
       console.log(error)
     })
+
+    this.$axios.get('/postInfos/postInfos?postId=' + this.postId)
+      .then(successResponse => {
+        this.postTitle = successResponse.data.data.postTitle
+        this.landlordId = successResponse.data.data.userId
+      }).catch(error => {
+        console.log(error)
+    })
+
 
     this.common_queryAllReplyPosts(1, this.pageSize)
 
@@ -53,7 +88,6 @@ export default {
       console.log(error)
     })
     this.isCollectPost()
-    this.queryAllCollectionList()
   },
   methods: {
     // 是否关注贴吧
@@ -82,6 +116,11 @@ export default {
     },
     // 关注贴吧
     followPostBar() {
+      let isLogin = this.$store.state.user.userId
+      if (isLogin === '' || isLogin === null || isLogin === 0) {
+        alert('请先登录')
+        return
+      }
       this.$axios.post('/postInfos/postBars?userId=' +
         this.$store.state.user.userId +
         '&postBarId=' + this.postBarInfo.postBarId)
@@ -106,6 +145,12 @@ export default {
     },
     // 弹出收藏列表选择
     showCollectionList() {
+      let isLogin = this.$store.state.user.userId
+      if (isLogin === '' || isLogin === null || isLogin === 0) {
+        alert('请先登录')
+        return
+      }
+      this.queryAllCollectionList()
       document.getElementsByClassName("box-card")[0].style.display = "block"
     },
     // 关闭收藏列表选择
@@ -119,6 +164,33 @@ export default {
           this.queryAllCollectionList()
         })
     },
+    // 添加收藏
+    insertCollection(collectGroupId, ev) {
+      // 按钮的点击次数
+      const currentTarget = ev.currentTarget
+      let clicks =  currentTarget.dataset.clicks
+      if (clicks % 2 === 0) {
+        // 取消收藏
+        this.$axios.delete('/postInfos/favorites/collections?collectId=' + currentTarget.dataset.collectId)
+          .then(successResponse => {
+            this.isCollectPost()
+            currentTarget.innerText = "收藏"
+            currentTarget.dataset.clicks ++
+          })
+      } else {
+        // 收藏
+        this.$axios.post('/postInfos/collections/postInfos', {
+          userId: this.$store.state.user.userId,
+          collectObjId: this.postId,
+          collectGroupId: collectGroupId
+        }).then(successResponse => {
+          this.isCollectPost()
+          currentTarget.dataset.collectId = successResponse.data.message
+          currentTarget.innerText = "取消收藏"
+          currentTarget.dataset.clicks ++
+        })
+      }
+    },
     // 获取要删除的收藏夹id赋值geicollectGroupId，方便后续的调用
     getCollectGroupId(ev) {
       this.collectGroupId = ev;
@@ -130,6 +202,11 @@ export default {
           userId: this.$store.state.user.userId
         }
       }).then(successResponse => {
+        // 这里没找到什么办法优化，当删除一个文件夹的时候，会把取消收藏变成已收藏（不要紧，但不是最好的，可是目前做不到）
+        let collects = document.getElementsByClassName("collect")
+        for (let i = 0; i < collects.length; i ++) {
+          collects[i].innerText = "收藏"
+        }
         this.collectionList = successResponse.data.data
       }).catch(error => {
         console.log(error)
@@ -192,6 +269,11 @@ export default {
     },
     // 只看楼主
     just_look_landlord() {
+      let isLogin = this.$store.state.user.userId
+      if (isLogin === '' || isLogin === null || isLogin === 0) {
+        alert('请先登录')
+        return
+      }
       if (this.pageSize === 20) {
         // 只看楼主
         this.$axios.get('/postInfos/postReplies/landlords', {
@@ -200,7 +282,6 @@ export default {
           }
         }).then(successResponse => {
           this.replyPostInfos = successResponse.data.data
-          console.log(this.replyPostInfos)
         }).catch(error => {
           console.log(error)
         })
@@ -214,23 +295,31 @@ export default {
     },
     // 点击三按钮之一的“回复”，快速定位回复框
     quick_positioning_reply_box() {
+      let isLogin = this.$store.state.user.userId
+      if (isLogin === '' || isLogin === null || isLogin === 0) {
+        alert('请先登录')
+        return
+      }
       document.getElementById("editorElem").scrollIntoView()
       document.getElementById("editorElem").childNodes[1].firstChild.focus()
     },
     controlShowReplies(e) {
+      let isLogin = this.$store.state.user.userId
+      if (isLogin === '' || isLogin === null || isLogin === 0) {
+        alert('请先登录')
+        return
+      }
       var replyToReply = document.getElementById(e)
       var replyToReplyDispaly = replyToReply.style.display
       replyToReply.style.display = replyToReplyDispaly === "none" ? "block" : "none"
       replyToReply.getElementsByClassName("reply_write")[0].firstElementChild.focus()
     },
     controlReply(e) {
-      // 判断是否登录
       let isLogin = this.$store.state.user.userId
-      if (isLogin === '' || isLogin === null) {
+      if (isLogin === '' || isLogin === null || isLogin === 0) {
+        alert('请先登录')
         return
       }
-
-      console.log(e)
       var replyDiv = document.getElementById(e)
       var replyDivDisplay = replyDiv.style.display
       replyDiv.style.display = replyDivDisplay === "none" ? "block" : "none"
@@ -288,15 +377,21 @@ export default {
       // 清空div的内容，清空绑定的发表按钮的class，但是此时class还是有的，不过为""
       currentTarget.previousElementSibling.innerText = ""
       currentTarget.className = ""
-      // 提示信息清空
-      this.replyTip = ""
+      // 提示信息清空，但是有时候会正常显示，有时候又有再发送一条信息才会出现（也可以刷新一次就没问题）
+      this.replyTip = "发送成功，若未显示可刷新界面"
     },
     replyPost() {
+      let isLogin = this.$store.state.user.userId
+      if (isLogin === '' || isLogin === null || isLogin === 0) {
+        alert('请先登录')
+        return
+      }
       // 没有输入
       if (this.editorSelf.txt.text().length < 1 && this.editorSelf.txt.html().length < 12) {
         this.replyPostTip = "抱歉，您的帖子低于1字符，请您再输入一点吧"
         return
       }
+      // 包括图片背后真正的<img>的src地址长度之类
       if (this.editorSelf.txt.html().length > 5000) {
         this.replyPostTip = "抱歉，您的帖子超过5000字符，建议您精简或分段后再提交"
         return
@@ -307,6 +402,7 @@ export default {
         replyPostContent: this.editorSelf.txt.html()
       })
       this.editorSelf.txt.html('')
+      this.replyPostTip = "回帖成功，如果未显示，请手动刷新界面"
       this.common_queryAllReplyPosts(1, this.pageSize)
     },
     fnUploadRequest(option) {
@@ -354,7 +450,10 @@ export default {
         userId: this.$store.state.user.userId,
         status: this.isPrivate === true ? 0 : 1
       }).then(successResponse => {
-        this.common_queryAllFavorites()
+        this.favoritesName = ""
+        this.queryAllCollectionList()
+      }).catch(error => {
+        console.log(error)
       })
     },
 
@@ -368,6 +467,25 @@ export default {
         this.favoritesList = successResponse.data.data
       }).catch(error => {
         console.log(error)
+      })
+    },
+    // 回复不可见
+    deleteReply(replyId) {
+      this.$axios.put('/postInfos/replies?replyId=' + replyId)
+        .then(successResponse => {
+          this.common_queryAllReplies()
+      }).catch(error => {
+          console.log(error)
+      })
+    },
+    // 回帖不可见
+    deleteReplyPost(replyPostId) {
+      this.$axios.put('/postInfos/replyPosts?replyPostId=' + replyPostId)
+        .then(successResponse => {
+          this.$router.go(0)
+          // this.common_queryAllReplyPosts(1, this.pageSize)
+      }).catch(error => {
+          console.log(error)
       })
     }
   },

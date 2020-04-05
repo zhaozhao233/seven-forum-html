@@ -16,7 +16,8 @@ export default {
       titleTip: '',
       postTip: '',
       textarea: '',
-      tab: ''
+      tab: '',
+      isFollow: 0
     }
   },
   filters: {
@@ -42,9 +43,23 @@ export default {
   },
   created: function () {
     this.postBarId = this.$route.query.postbarid
+
+    if (this.postBarId > 9223372036854775807 || this.postBarId < 0) {
+      this.$router.push('/error')
+    }
+    this.$axios.get('/is/postBars?postBarId=' + this.postBarId)
+      .then(successResponse => {
+        if (successResponse.data.message !== '1') {
+          this.$router.push('/error')
+        }
+      }).catch(error => {
+      console.log(error)
+    })
+
     this.$axios.get('/postBars/' + this.postBarId)
       .then(successResponse => {
         this.postBarInfo = successResponse.data.data
+        this.isFollowPostBar()
       }).catch(error => {
       console.log(error)
     })
@@ -77,8 +92,43 @@ export default {
     }
   },
   methods: {
+    // 是否关注贴吧
+    isFollowPostBar() {
+      this.$axios.get('/postInfos/is/postBars', {
+        params: {
+          userId: this.$store.state.user.userId,
+          postBarId: this.postBarId
+        }
+      }).then(successResponse => {
+        this.isFollow = successResponse.data.message
+      }).catch(error => {
+        console.log(error)
+      })
+    },
+    // 取消关注贴吧
+    cancelFollowPostBar() {
+      this.$axios.delete('/postInfos/follows/postBars?userId=' +
+        this.$store.state.user.userId +
+        '&postBarId=' + this.postBarId)
+        .then(successResponse => {
+          this.isFollowPostBar()
+        }).catch(error => {
+        console.log(error)
+      })
+    },
+    // 关注贴吧
+    followPostBar() {
+      this.$axios.post('/postInfos/postBars?userId=' +
+        this.$store.state.user.userId +
+        '&postBarId=' + this.postBarId)
+        .then(successResponse => {
+          this.isFollowPostBar()
+        }).catch(error => {
+        console.log(error)
+      })
+    },
     insertPost() {
-      if (this.textarea.length === 0) {
+      if (this.textarea.trim().length === 0) {
         this.titleTip = "标题不能为空"
         return
       }
@@ -86,7 +136,7 @@ export default {
         this.titleTip = "标题过长，最多允许64个字符"
         return
       }
-      if (this.editorSelf.txt.text().length < 1 && this.editorSelf.txt.html().length < 12) {
+      if (this.editorSelf.txt.text().trim().length < 1 && this.editorSelf.txt.html().length < 12) {
         this.postTip = "抱歉，您的帖子低于1字符，请您再输入一点吧"
         return
       }

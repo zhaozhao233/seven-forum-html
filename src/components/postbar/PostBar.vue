@@ -10,13 +10,23 @@
             <a href="">{{postBarInfo.postBarName}}</a>
           </div>
           <div class="ba-button">
-            <el-popconfirm :title="'确定不再关注' + postBarInfo.postBarName + '吗？'"
+            <!--<el-popconfirm :title="'确定不再关注' + postBarInfo.postBarName + '吗？'"-->
+                           <!--confirmButtonText='确定'-->
+                           <!--cancelButtonText='取消'-->
+                           <!--icon="el-icon-info"-->
+                           <!--iconColor="red">-->
+              <!--<el-button slot="reference" type="danger" size="small" icon="el-icon-plus">关注</el-button>-->
+            <!--</el-popconfirm>-->
+
+            <el-popconfirm v-if="isFollow === '1'" :title="'确定不再关注' + postBarInfo.postBarName + '吗？'"
                            confirmButtonText='确定'
                            cancelButtonText='取消'
                            icon="el-icon-info"
-                           iconColor="red">
-              <el-button slot="reference" type="danger" size="small" icon="el-icon-plus">关注</el-button>
+                           iconColor="red" @onConfirm="cancelFollowPostBar">
+              <el-button slot="reference" type="danger" size="small" icon="el-icon-plus">已关注</el-button>
             </el-popconfirm>
+            <el-button v-if="isFollow !== '1'" slot="reference" type="danger" size="small" icon="el-icon-plus" @click="followPostBar">关注</el-button>
+
           </div>
           <div class="ba-count">
             <span class="card-numLabel">关注：</span>

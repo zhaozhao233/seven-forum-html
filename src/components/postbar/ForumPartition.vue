@@ -7,7 +7,8 @@
             <img :src="postBar.postBarLogoUrl">
           </div>
           <div class="ba-content">
-            <p class="ba-name">{{postBar.postBarName}}:{{postBar.postBarId}}</p>
+            <p class="ba-name">{{postBar.postBarName}}</p>
+            <!--:{{postBar.postBarId}}-->
             <p class="ba-num">
               <span class="el-icon-user-solid">{{postBar.userCount}}</span>
               <span class="el-icon-edit-outline">{{postBar.postCount}}</span>

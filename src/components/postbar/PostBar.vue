@@ -10,14 +10,6 @@
             <a href="">{{postBarInfo.postBarName}}</a>
           </div>
           <div class="ba-button">
-            <!--<el-popconfirm :title="'确定不再关注' + postBarInfo.postBarName + '吗？'"-->
-                           <!--confirmButtonText='确定'-->
-                           <!--cancelButtonText='取消'-->
-                           <!--icon="el-icon-info"-->
-                           <!--iconColor="red">-->
-              <!--<el-button slot="reference" type="danger" size="small" icon="el-icon-plus">关注</el-button>-->
-            <!--</el-popconfirm>-->
-
             <el-popconfirm v-if="isFollow === '1'" :title="'确定不再关注' + postBarInfo.postBarName + '吗？'"
                            confirmButtonText='确定'
                            cancelButtonText='取消'
@@ -70,7 +62,7 @@
               <p>
                 <span class="icon-top" v-show=postInfo.topPost>置顶</span>
                 <span class="icon-good" v-show=postInfo.wonderfulPost>精</span>
-                <a :href="'/postinfo?postid=' + postInfo.postId">
+                <a :href="'/postinfo?postid=' + postInfo.postId" @click="addVisitCount(postInfo.postId)">
                   <span class="post-title">{{postInfo.postTitle | ellipsis_title}}</span>
                 </a>
               </p>

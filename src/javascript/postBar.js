@@ -92,6 +92,10 @@ export default {
     }
   },
   methods: {
+    // 查看帖子后，帖子的访问数+1
+    addVisitCount(postId) {
+      this.$axios.put('/postInfos/visitCounts?postId=' + postId)
+    },
     // 是否关注贴吧
     isFollowPostBar() {
       this.$axios.get('/postInfos/is/postBars', {
@@ -128,6 +132,12 @@ export default {
       })
     },
     insertPost() {
+      let isLogin = this.$store.state.user.userId
+      if (isLogin === '' || isLogin === null || isLogin === 0) {
+        alert('请先登录')
+        return
+      }
+
       if (this.textarea.trim().length === 0) {
         this.titleTip = "标题不能为空"
         return

@@ -1,69 +1,51 @@
 <template>
-  <div class="search">
-    <el-form>
-      <el-autocomplete
-        popper-class="my-autocomplete"
-        @keydown.native.enter=""
-        value-key="postBarName"
-        :trigger-on-focus="false"
-        v-model="state"
-        :fetch-suggestions="querySearchAsync"
-        placeholder="请输入内容"
-        clearable
-        @select="handleSelect"
-      >
-        <template slot-scope="{ item }">
-          <div class="name">{{ item.postBarName }}</div>
-          <span class="addr">{{ item.postBarExplain }}</span>
-        </template>
-      </el-autocomplete>
-      <!--<el-button type="primary">进入贴吧</el-button>-->
-      <!--<el-button plain>搜索帖子</el-button>-->
-    </el-form>
+  <div id="zhu">
+    <div class="top_header_right" style="margin-left: 300px;">
+      <div class="search" style="float: left">
+        <el-form>
+          <el-autocomplete
+            popper-class="my-autocomplete"
+            @keydown.native.enter=""
+            value-key="postBarName"
+            :trigger-on-focus="false"
+            v-model="state"
+            :fetch-suggestions="querySearchAsync"
+            placeholder="搜索贴吧"
+            clearable
+            @select="handleSelect"
+            style="width: 500px;margin-top: 5px;"
+          >
+            <template slot-scope="{ item }">
+              <div class="name">{{ item.postBarName }}</div>
+              <span class="addr">{{ item.postBarExplain }}</span>
+            </template>
+          </el-autocomplete>
+        </el-form>
+      </div>
+
+      <ul class="dao_ul" style="float: left">
+        <li><a href="/forumclass">贴吧首页</a></li>
+        <!--记得改，登录界面的路由-->
+        <li v-if="userId === 0 || userId === null"><a href="">登录</a></li>
+        <!--记得改，用户信息路由-->
+        <li v-if="userId !== 0 && userId !== null"><a href="">{{userName}}</a></li>
+        <!--记得改-->
+        <li><a href="">消息</a></li>
+        <!--记得改-->
+        <li><a href="">会员</a></li>
+        <!--记得改-->
+        <li><a href="">动态</a></li>
+      </ul>
+
+    </div>
   </div>
+
 </template>
 
-<script>
-    export default {
-      name: 'Search',
-      data() {
-        return {
-          restaurants: [],
-          state: '',
-          timeout:  null
-        };
-      },
-      methods: {
-        querySearchAsync(queryString, cb) {
-          var restaurants = this.restaurants;
-          var results = queryString ? restaurants.filter(this.createStateFilter(queryString)) : restaurants;
-          clearTimeout(this.timeout);
-          this.timeout = setTimeout(() => {
-            this.$axios.get('/searchs/postBars', {
-              params: {
-                postBarNameKey: queryString
-              }
-            }).then(successResponse => {
-              cb(successResponse.data.data);
-            }).catch(error => {
-              console.log(error)
-            })
-          }, 1 * Math.random());
-        },
-        createStateFilter(queryString) {
-          return (state) => {
-            return (state.value.toLowerCase().indexOf(queryString.toLowerCase()) > -1);
-          };
-        },
-        handleSelect(item) {
-          this.$router.push('/postbar?postbarid=' + item.postBarId)
-        },
-      },
-    }
+<script src="../../javascript/search.js">
+
 </script>
 
 <style scoped>
-  .search_input {
-    width: 430px;
-  }
+  @import "../../style/search.css";
 </style>

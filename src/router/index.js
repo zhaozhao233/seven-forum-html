@@ -13,6 +13,7 @@ Vue.use(Router)
 export default new Router({
   mode: 'history',
   routes: [
+
     {
       path: '/error',
       name: 'WrongInterface',
@@ -49,6 +50,6 @@ export default new Router({
           component: ForumPartition
         }
       ]
-    }
+    },
   ]
 })
